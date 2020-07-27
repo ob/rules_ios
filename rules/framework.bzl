@@ -76,6 +76,16 @@ def _concat(*args):
             arr += x
     return arr
 
+def _package_framework(actions, modulemap, swiftmodule, swiftdoc, public_headers, private_headers, platforms, binaries):
+    return struct(
+        swiftmodule = None,
+        swiftdoc = None,
+        public_headers = None,
+        private_headers = None,
+        binary = None,
+        modulemap = None,
+    )
+
 def _apple_framework_packaging_impl(ctx):
     framework_name = ctx.attr.framework_name
     bundle_extension = ctx.attr.bundle_extension
@@ -123,7 +133,7 @@ def _apple_framework_packaging_impl(ctx):
                 continue
 
             # collect binary files
-            if file.path.endswith(".a"):
+            if file.path.endswith(".a") or file.path.endswith("/{0}.framework/{0}".format(framework_name)):
                 binary_in.append(file)
 
             # collect swift specific files
@@ -164,11 +174,11 @@ def _apple_framework_packaging_impl(ctx):
                 # only thing is the generated module map -- we don't want it
                 continue
 
-            if SwiftInfo in dep and dep[SwiftInfo].direct_swiftmodules:
-                # apple_common.Objc.direct_module_maps is broken coming from swift_library
-                # (it contains one level of transitive module maps), so ignore SwiftInfo from swift_library,
-                # since it doesn't have a module_map field anyway
-                continue
+            # if SwiftInfo in dep and dep[SwiftInfo].direct_swiftmodules:
+            #     # apple_common.Objc.direct_module_maps is broken coming from swift_library
+            #     # (it contains one level of transitive module maps), so ignore SwiftInfo from swift_library,
+            #     # since it doesn't have a module_map field anyway
+            #     continue
 
             # collect modulemaps
             for modulemap in dep[apple_common.Objc].direct_module_maps:
@@ -402,4 +412,8 @@ the framework as a dependency.""",
         ),
     },
     doc = "Packages compiled code into an Apple .framework package",
+)
+
+framework = struct(
+    package_framework = _package_framework,
 )

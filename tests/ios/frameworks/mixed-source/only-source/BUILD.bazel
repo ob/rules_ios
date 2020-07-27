@@ -13,7 +13,11 @@ apple_framework(
     srcs = glob(
         include = [
             "MixedSourceFramework/**/*.h",
+            "MixedSourceFramework/**/*.hh",
             "MixedSourceFramework/**/*.m",
+            "MixedSourceFramework/**/*.mm",
+            "MixedSourceFramework/**/*.c",
+            "MixedSourceFramework/**/*.cpp",
             "MixedSourceFramework/**/*.swift",
         ],
         # Cannot be excluded since the swift compiler is hard-coded to refer to a header with the same name as
