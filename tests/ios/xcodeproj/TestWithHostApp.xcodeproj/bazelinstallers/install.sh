@@ -3,7 +3,7 @@
 # Install the runnable products so that Xcode can run it. This includes `.app`s,
 # `.xctest`s, and also command line binaries.
 
-set -eux
+set -eu
 
 # Delete all logfiles that are older than 7 days
 find "${BAZEL_DIAGNOSTICS_DIR}" -type f -atime +7d -delete

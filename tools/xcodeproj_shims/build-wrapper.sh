@@ -1,5 +1,5 @@
 #!/bin/bash
-set -euxo pipefail
+set -euo pipefail
 
 declare -a BAZEL_BUILD_OPTIONS=(
     "--build_event_text_file=$BAZEL_BUILD_EVENT_TEXT_FILENAME"

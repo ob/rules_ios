@@ -471,7 +471,7 @@ A same-name target with label "{}" of type "{}" wants to override.
 Double check your rule declaration for naming or add `xcodeproj-ignore-as-target` as a tag to choose which target to ignore.
 """
 _BUILD_WITH_BAZEL_SCRIPT = """
-set -euxo pipefail
+set -euo pipefail
 cd $BAZEL_WORKSPACE_ROOT
 
 export BAZEL_DIAGNOSTICS_DIR="$BUILD_DIR/../../bazel-xcode-diagnostics/"
